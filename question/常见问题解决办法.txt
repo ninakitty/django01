@@ -1,0 +1,15 @@
+git问题及解决方法
+今天在使用git的时候出现了这个错误，我是先在oschina创建了git仓库地址，然后使用git clone https://xxxx@xx.git 操作时，出现的
+fatal: destination path ‘文件夹名’ git clone already exists and is not an empty directory
+1
+解决方法如下：
+git init
+git remote add origin https://xxx@xx.git
+git fetch
+git branch master origin/master
+git checkout master
+然后你就可以用 
+git add . 
+git commit -m “提交信息” 
+git push origin master 
+对你的代码进行提交上传了。
