@@ -1,13 +1,13 @@
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.views.generic import View
 
 from utils.email_send import send_register_email
 from .models import UserProfile, EmailVerifyRecord
-from .forms import UserForm, EmailForm
+from .forms import UserForm, EmailForm, ForgetForm
 
 
 class ActUserView(View):
@@ -20,6 +20,8 @@ class ActUserView(View):
                 user.is_active = True
                 user.save()
                 return render(request, 'login.html', {'msg': '激活成功！请登录！'})
+        else:
+            return render(request, 'login.html', {'msg': '激活失败！请与管理员联系！'})
 
 
 class RegisterView(View):
@@ -39,8 +41,7 @@ class RegisterView(View):
             userProfile.is_active = False
 
             # 查询是否已存在
-            if UserProfile.objects.filter(Q(username=user_name) | Q(email=user_name)):
-
+            if UserProfile.objects.filter(email=user_name):
                 return render(request, 'register.html', {'msg': '邮箱已存在！', 'reg_form': reg_form})
             else:
                 userProfile.save()
@@ -93,4 +94,22 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return render(request, 'login.html', {})
+        return render(request, 'index.html', {})
+
+
+class ForgetPwdView(View):
+    def get(self, request):
+        forgetform = ForgetForm()
+        return render(request, 'forgetpwd.html', {'forgetform': forgetform})
+
+    def post(self, request):
+        email = request.POST.get('email', '')
+        forgetform = ForgetForm(request.POST)
+        if forgetform.is_valid():
+            if UserProfile.objects.filter(email=email):
+                send_register_email(email, 'forget')
+                return render(request, 'login.html', {'msg': '邮件已发送！请进入邮箱重置密码！'})
+            else:
+                return render(request, 'forgetpwd.html', {'msg': '注册邮箱不存在！'})
+        else:
+            return render(request, 'forgetpwd.html', {'forgetform': forgetform})

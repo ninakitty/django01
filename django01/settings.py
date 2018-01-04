@@ -48,6 +48,32 @@ INSTALLED_APPS = [
     'captcha',
 
 ]
+# 格式
+CAPTCHA_OUTPUT_FORMAT = u'%(text_field)s %(hidden_field)s %(image)s'
+# 噪点样式
+CAPTCHA_NOISE_FUNCTIONS = (
+    'captcha.helpers.noise_null',       # 没有样式
+    # 'captcha.helpers.noise_arcs',     # 线
+    'captcha.helpers.noise_dots',       # 点
+)
+# 图片大小
+CAPTCHA_IMAGE_SIZE = (100, 30)
+# 字符个数
+CAPTCHA_LENGTH = 4
+# 超时(minutes)
+CAPTCHA_TIMEOUT = 1
+# 文字倾斜
+CAPTCHA_LETTER_ROTATION = (-10,10)
+# 背景颜色
+CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'
+# 文字颜色
+CAPTCHA_FOREGROUND_COLOR = '#0A12E5'
+# 验证码类型
+# 图片中的文字为随机英文字母，如 mdsh
+#CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+# 图片中的文字为数字表达式，如1+2=
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
+
 AUTH_USER_MODEL = 'users.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackends',

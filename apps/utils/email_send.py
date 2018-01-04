@@ -9,8 +9,6 @@ from django01.settings import EMAIL_FROM
 from users.models import EmailVerifyRecord
 
 
-
-
 def send_register_email(email, send_type='register'):
     # 生成及保存邮箱验证码
     email_record = EmailVerifyRecord()
@@ -27,6 +25,12 @@ def send_register_email(email, send_type='register'):
     if send_type == 'register':
         email_title = '邮箱注册链接'
         email_body = "请点击下面链接激活帐号：http://127.0.0.1:8000/activate/{0}".format(code)
+        email_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
+        if email_status:
+            pass
+    elif send_type == 'forget':
+        email_title = '重置密码链接'
+        email_body = "请点击下面链接重置：http://127.0.0.1:8000/reset/{0}".format(code)
         email_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if email_status:
             pass
