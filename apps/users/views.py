@@ -5,7 +5,12 @@ from django.db.models import Q
 from django.views.generic import View
 
 from .models import UserProfile
-from .forms import UserForm
+from .forms import UserForm, EmailForm
+
+
+class RegistView(View):
+    def get(self, request):
+        return render(request, )
 
 
 # 自定义认证类
@@ -27,7 +32,7 @@ class LoginView(View):
         user_form = UserForm(request.POST)
         user_name = request.POST.get('username', '')
         pass_word = request.POST.get('password', '')
-        #form认证
+        # form认证
         if user_form.is_valid():
             # 认证用户
             user = authenticate(username=user_name, password=pass_word)
