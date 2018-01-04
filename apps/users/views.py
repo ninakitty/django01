@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.views.generic import View
@@ -88,3 +88,9 @@ class LoginView(View):
         else:
             return render(request, 'login.html',
                           {'user_form': user_form, 'user_name': user_name, 'pass_word': pass_word})
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return render(request, 'login.html', {})
