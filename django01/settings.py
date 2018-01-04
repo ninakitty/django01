@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
 ]
 AUTH_USER_MODEL = 'users.UserProfile'
-AUTHENTICATION_BACKENDS=(
+AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackends',
 )
 
@@ -139,4 +139,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_HOST = 'smtp.sina.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'gggyniypm@sina.com'
+EMAIL_HOST_PASSWORD = '60322319wyl'
+EMAIL_USE_TLS = False
+EMAIL_FROM = 'gggyniypm@sina.com'

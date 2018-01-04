@@ -11,4 +11,5 @@ class UserForm(forms.Form):
 
 class EmailForm(forms.Form):
     email = forms.EmailField(required=True)
-    captcha = CaptchaField()
+    password = forms.CharField(required=True, min_length=5)
+    captcha = CaptchaField(error_messages={'invalid':'验证码错误！'})
