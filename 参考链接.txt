@@ -1,0 +1,5 @@
+Django+Xadmin打造上线标准的在线教育平台
+http://www.cnblogs.com/adc8868/
+
+Django 基础教程
+https://code.ziqiangxuetang.com/django/django-tutorial.html
