@@ -19,7 +19,7 @@ import xadmin
 
 xadmin.autodiscover()
 from xadmin.plugins import xversion
-from users.views import LoginView, RegisterView, ActUserView, LogoutView,ForgetPwdView
+from users.views import LoginView, RegisterView, ActUserView, LogoutView, ForgetPwdView, ResetView,ModifyView
 
 xversion.register_models()
 urlpatterns = [
@@ -32,5 +32,7 @@ urlpatterns = [
     url(r'^captcha/', include('captcha.urls')),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^forget_pwd/$', ForgetPwdView.as_view(), name='forgetpwd'),
+    url(r'^reset/(?P<res_code>.*)/$', ResetView.as_view(), name='reset'),
+    url(r'^modify/$', ModifyView.as_view(), name='modify'),
 
 ]

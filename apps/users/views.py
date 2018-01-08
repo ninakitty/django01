@@ -7,7 +7,7 @@ from django.views.generic import View
 
 from utils.email_send import send_register_email
 from .models import UserProfile, EmailVerifyRecord
-from .forms import UserForm, EmailForm, ForgetForm
+from .forms import UserForm, EmailForm, ForgetForm, ModifyPwdForm
 
 
 class ActUserView(View):
@@ -113,3 +113,31 @@ class ForgetPwdView(View):
                 return render(request, 'forgetpwd.html', {'msg': '注册邮箱不存在！'})
         else:
             return render(request, 'forgetpwd.html', {'forgetform': forgetform})
+
+
+class ResetView(View):
+    def get(self, request, res_code):
+        all_record = EmailVerifyRecord.objects.filter(code=res_code)
+        if all_record:
+            for record in all_record:
+                email = record.email
+                return render(request, 'password_reset.html', {'email': email})
+        else:
+            return render(request, 'login.html', {'msg': '链接已过期或错误！请重试！'})
+class ModifyView(View):
+    def post(self, request):
+        mod_form = ModifyPwdForm(request.POST)
+        password = request.POST.get('password', '')
+        password2 = request.POST.get('password2', '')
+        email = request.POST.get('email', '')
+        if mod_form.is_valid():
+            if password == password2:
+                user = UserProfile.objects.get(email=email)
+                user.password = make_password(password2)
+                user.save()
+                EmailVerifyRecord.objects.filter(email=email).delete()
+                return render(request, 'login.html', {'msg': '密码修改成功，请登录！'})
+            else:
+                return render(request, 'password_reset.html', {'email': email, 'mod_form': mod_form,'msg':'两次密码不一致！'})
+        else:
+            return render(request, 'password_reset.html', {'email': email, 'mod_form': mod_form})

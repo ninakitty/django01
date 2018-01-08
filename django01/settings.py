@@ -70,7 +70,7 @@ CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'
 CAPTCHA_FOREGROUND_COLOR = '#0A12E5'
 # 验证码类型
 # 图片中的文字为随机英文字母，如 mdsh
-#CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+# CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 # 图片中的文字为数字表达式，如1+2=
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
 

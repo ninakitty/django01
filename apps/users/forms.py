@@ -18,3 +18,8 @@ class EmailForm(forms.Form):
 class ForgetForm(forms.Form):
     email = forms.EmailField(required=True,error_messages={'required':'邮箱不能为空！'})
     captcha = CaptchaField(error_messages={'invalid': '验证码错误！', 'required': '验证码不能为空！'})
+
+class ModifyPwdForm(forms.Form):
+    password = forms.CharField(required=True, min_length=5,error_messages={'required': '密码不能为空！'})
+    password2 = forms.CharField(required=True, min_length=5,error_messages={'required': '密码不能为空！'})
+
