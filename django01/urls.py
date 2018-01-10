@@ -24,7 +24,6 @@ from django01.settings import MEDIA_ROOT
 xadmin.autodiscover()
 from xadmin.plugins import xversion
 from users.views import LoginView, RegisterView, ActUserView, LogoutView, ForgetPwdView, ResetView, ModifyView
-from organization.views import OrgView
 
 xversion.register_models()
 urlpatterns = [
@@ -39,7 +38,7 @@ urlpatterns = [
     url(r'^forget_pwd/$', ForgetPwdView.as_view(), name='forgetpwd'),
     url(r'^reset/(?P<res_code>.*)/$', ResetView.as_view(), name='reset'),
     url(r'^modify/$', ModifyView.as_view(), name='modify'),
-    url(r'^orglist/$', OrgView.as_view(), name='orglist'),
+    url(r'^org/', include('organization.urls',namespace='org')),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
 ]

@@ -6,7 +6,7 @@
         <div class="wp">
             <ul class="crumbs">
                 <li><a href="{% url 'index' %}">首页</a>-</li>
-                <li><a href="{% url 'orglist' %}"> 课程机构</a></li>
+                <li><a href="{% url 'org:orglist' %}"> 课程机构</a></li>
             </ul>
         </div>
     </section>
@@ -76,11 +76,8 @@
                                         <a href="org-detail-homepage.html">
                                             <h1>{{ course_org.name }}</h1>
                                             <div class="pic fl">
-
                                                 <img src="{% static 'images/authentication.png' %}"/>
-
                                                 <img src="{% static 'images/gold.png' %}"/>
-
                                             </div>
                                         </a>
                                     </div>
@@ -153,7 +150,7 @@
                     </div>
                     <p class="error company-tips" id="jsCompanyTips"></p>
                     <input class="btn" type="text" id="jsStayBtn" value="立即咨询 >"/>
-                    <input type='hidden' name='csrfmiddlewaretoken' value='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy'/>
+                    {% csrf_token %}
                 </form>
             </div>
 
@@ -173,4 +170,35 @@
             </div>
         </div>
     </section>
+{% endblock %}
+{% block custom_js %}
+    <script>
+        $(function () {
+            $('#jsStayBtn').on('click', function () {
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    url: '{% url "org:adduserask" %}',
+                    data: $('#jsStayForm').serialize(),
+                    async: true,
+                    success: function (data) {
+                        console.log(data)
+                        if (data.status == 'success') {
+                            $('#jsStayForm')[0].reset();
+                            $('#jsCompanyTips').html('提交成功');
+                        } else if (data.status == 'fail') {
+                            temp = ''
+                            $.each(data.msg, function (key, value) {
+                                temp = temp + value + '<br>'
+                            })
+                            $('#jsCompanyTips').html(temp)
+                        }
+                    }
+                })
+
+            })
+        })
+
+    </script>
+
 {% endblock %}

@@ -1,6 +1,11 @@
+import json
+
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+
+from organization.forms import UserAskForm
 from .models import CourseOrg, City
 
 
@@ -12,7 +17,7 @@ class OrgView(View):
 
     def get(self, request):
         all_orgs = CourseOrg.objects.all()
-        hot_orgs=CourseOrg.objects.order_by('-click_num')[:5]
+        hot_orgs = CourseOrg.objects.order_by('-click_num')[:5]
         all_city = City.objects.all()
 
         city_id = request.GET.get('city', '')
@@ -23,9 +28,9 @@ class OrgView(View):
         if ct:
             all_orgs = all_orgs.filter(category=ct)
         if sort:
-            if sort=='students':
-                all_orgs=all_orgs.order_by('students')
-            elif sort=='courses':
+            if sort == 'students':
+                all_orgs = all_orgs.order_by('students')
+            elif sort == 'courses':
                 all_orgs = all_orgs.order_by('course_num')
 
         orgs_num = all_orgs.count()
@@ -41,4 +46,17 @@ class OrgView(View):
 
         return render(request, 'org-list.html',
                       {'all_orgs': orgs, 'all_city': all_city, 'orgs_num': orgs_num, 'city_id': city_id,
-                       'category': ct,'hot_orgs':hot_orgs,'sort':sort})
+                       'category': ct, 'hot_orgs': hot_orgs, 'sort': sort})
+
+
+class AddUserAskView(View):
+    def post(self, request):
+        resp = {}
+        userask_form = UserAskForm(request.POST)
+        if userask_form.is_valid():
+            userask = userask_form.save(commit=True)
+            resp['status'] = 'success'
+        else:
+            resp['status'] = 'fail'
+            resp['msg']=userask_form.errors
+        return HttpResponse(json.dumps(resp), content_type="application/json")
