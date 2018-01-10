@@ -6,9 +6,9 @@ import xadmin
 
 
 class CourseOrgAdmin(object):
-    list_display = ['name', 'desc', 'add_time']
-    search_fields = ['name', 'desc', 'add_time']
-    list_filter = ['name', 'desc', 'add_time']
+    list_display = ['name', 'desc', 'add_time','category']
+    search_fields =['name', 'desc', 'add_time','category']
+    list_filter = ['name', 'desc', 'add_time','category']
 
 
 class CityAdmin(object):

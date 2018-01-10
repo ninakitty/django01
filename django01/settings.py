@@ -46,15 +46,16 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
     'captcha',
+    'pure_pagination',
 
 ]
 # 格式
 CAPTCHA_OUTPUT_FORMAT = u'%(text_field)s %(hidden_field)s %(image)s'
 # 噪点样式
 CAPTCHA_NOISE_FUNCTIONS = (
-    'captcha.helpers.noise_null',       # 没有样式
+    'captcha.helpers.noise_null',  # 没有样式
     # 'captcha.helpers.noise_arcs',     # 线
-    'captcha.helpers.noise_dots',       # 点
+    'captcha.helpers.noise_dots',  # 点
 )
 # 图片大小
 CAPTCHA_IMAGE_SIZE = (100, 30)
@@ -63,7 +64,7 @@ CAPTCHA_LENGTH = 4
 # 超时(minutes)
 CAPTCHA_TIMEOUT = 1
 # 文字倾斜
-CAPTCHA_LETTER_ROTATION = (-10,10)
+CAPTCHA_LETTER_ROTATION = (-10, 10)
 # 背景颜色
 CAPTCHA_BACKGROUND_COLOR = '#FFFFFF'
 # 文字颜色
@@ -104,6 +105,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 定义可获取MEDIA_URL地址
+                'django.core.context_processors.media',
             ],
         },
     },
@@ -119,7 +122,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django01',
         'USER': 'root',
-        'PASSWORD': 'weihepeng321',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -164,8 +167,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/staticroot')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
 MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 EMAIL_HOST = 'smtp.sina.com'
 EMAIL_PORT = 25
@@ -173,3 +177,11 @@ EMAIL_HOST_USER = 'gggyniypm@sina.com'
 EMAIL_HOST_PASSWORD = '60322319wyl'
 EMAIL_USE_TLS = False
 EMAIL_FROM = 'gggyniypm@sina.com'
+
+#分页设置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 5,
+    'MARGIN_PAGES_DISPLAYED': 2,
+
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}

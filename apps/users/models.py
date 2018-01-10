@@ -39,7 +39,7 @@ class EmailVerifyRecord(models.Model):
 
 class Banner(models.Model):
     title = models.CharField(max_length=100, verbose_name='标题')
-    image = models.ImageField(upload_to='static/banner/%Y/%m', verbose_name='轮播图', max_length=100)
+    image = models.ImageField(upload_to='banner/%Y/%m', verbose_name='轮播图', max_length=100)
     url = models.URLField(max_length=200, verbose_name='访问地址')
     index = models.IntegerField(default=100, verbose_name='位置')
     add_time = models.DateTimeField(auto_now_add=True, verbose_name='添加时间')
