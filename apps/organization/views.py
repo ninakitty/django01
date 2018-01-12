@@ -58,5 +58,19 @@ class AddUserAskView(View):
             resp['status'] = 'success'
         else:
             resp['status'] = 'fail'
-            resp['msg']=userask_form.errors
+            resp['msg'] = userask_form.errors
         return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+class OrgHomeView(View):
+    '''
+    机构首页
+    '''
+
+    def get(self, request, org_id):
+        course_org = CourseOrg.objects.get(id=org_id)
+        allcourses = course_org.course_set.all()
+        print(allcourses.count())
+        allteachers = course_org.teacher_set.all()
+        return render(request, 'org-detail-homepage.html',
+                      {'course_org': course_org, 'allcourses': allcourses, 'allteachers': allteachers})
