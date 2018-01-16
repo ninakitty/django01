@@ -98,6 +98,7 @@ class OrgCourseView(View):
         current_page = 'course'
         course_org = CourseOrg.objects.get(id=org_id)
         # 判断是否已收藏，2代表机构
+        user = request.user
         if request.user.is_authenticated():
             has_fav = UserFavorite.objects.filter(user=user, fav_id=course_org.id, fav_type=2)
         else:
@@ -117,6 +118,7 @@ class OrgDescView(View):
         current_page = 'desc'
         course_org = CourseOrg.objects.get(id=org_id)
         # 判断是否已收藏，2代表机构
+        user=request.user
         if request.user.is_authenticated():
             has_fav = UserFavorite.objects.filter(user=user, fav_id=course_org.id, fav_type=2)
         else:
@@ -134,6 +136,7 @@ class OrgTeacherView(View):
         current_page = 'teacher'
         course_org = CourseOrg.objects.get(id=org_id)
         # 判断是否已收藏，2代表机构
+        user = request.user
         if request.user.is_authenticated():
             has_fav = UserFavorite.objects.filter(user=user, fav_id=course_org.id, fav_type=2)
         else:
