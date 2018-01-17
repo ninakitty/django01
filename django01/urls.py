@@ -38,7 +38,8 @@ urlpatterns = [
     url(r'^forget_pwd/$', ForgetPwdView.as_view(), name='forgetpwd'),
     url(r'^reset/(?P<res_code>.*)/$', ResetView.as_view(), name='reset'),
     url(r'^modify/$', ModifyView.as_view(), name='modify'),
-    url(r'^org/', include('organization.urls',namespace='org')),
+    url(r'^org/', include('organization.urls', namespace='org')),
+    url(r'^course/', include('courses.urls', namespace='course')),
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
 ]
